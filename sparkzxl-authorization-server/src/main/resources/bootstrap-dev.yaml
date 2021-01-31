@@ -1,0 +1,44 @@
+server:
+  shutdown: graceful
+  port: 8901
+  undertow:
+    buffer-size: 1024
+    direct-buffers: on
+    always-set-keep-alive: true
+spring:
+  application:
+    name: sparkzxl-authentication-server
+  lifecycle:
+    timeout-per-shutdown-phase: 30s
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 47.114.40.129:8848
+        namespace: ad7565b2-fd07-4104-849f-1f08f85ed536
+      config:
+        server-addr: 47.114.40.129:8848
+        namespace: ad7565b2-fd07-4104-849f-1f08f85ed536
+        file-extension: yaml
+        prefix: ${spring.application.name}
+        shared-configs:
+          - dataId: redis.yaml
+            group: DEFAULT_GROUP
+            refresh: false
+          - dataId: common.yaml
+            group: DEFAULT_GROUP
+            refresh: false
+        enable-remote-sync-config: true
+        refresh-enabled: true
+keycloak:
+  realm: sparkzxl
+  auth-server-url: http://192.168.193.128/auth
+  ssl-required: external
+  resource: sparkzxl
+  verify-token-audience: true
+  credentials:
+    secret: 62bdd47b-88d4-4dd1-8d00-72219973a267
+  confidential-port: 0
+logging:
+  level:
+    com.github.sparkzxl.authentication.infrastructure.client: debug
+    com.github.sparkzxl.authentication.infrastructure.mapper: debug
